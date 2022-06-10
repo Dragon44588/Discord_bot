@@ -39,7 +39,7 @@ class music_cog(commands.Cog):
 
             # remove the first element as you are currently playing it
             self.music_queue.pop(0)
-
+            
             self.vc.play(discord.FFmpegPCMAudio(m_url, **self.FFMPEG_OPTIONS), after=lambda e: self.play_next())
         else:
             self.is_playing = False
@@ -50,7 +50,6 @@ class music_cog(commands.Cog):
             self.is_playing = True
 
             m_url = self.music_queue[0][0]['source']
-
             # try to connect to voice channel if you are not already connected
             if self.vc == None or not self.vc.is_connected():
                 self.vc = await self.music_queue[0][1].connect()
@@ -85,7 +84,8 @@ class music_cog(commands.Cog):
                 await ctx.send(
                     "Could not download the song. Incorrect format try another keyword. This could be due to playlist or a livestream format.")
             else:
-                await ctx.send("Song added to the queue")
+                print(song)
+                await ctx.send("{} added to the queue".format(song["title"]))
                 self.music_queue.append([song, voice_channel])
 
                 if self.is_playing == False:
