@@ -26,8 +26,8 @@ async def test():
 if __name__ == "__main__":
     #calls the logging functions from the general cog for information
     create_dir()
-    #info_log()
-    #error_log()
+    info_log()
+    error_log()
 
     #loads the token and sets the bots prefix
     load_dotenv()
