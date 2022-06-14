@@ -3,6 +3,17 @@ import logging
 from datetime import datetime
 from discord.ext import commands
 import json
+import os
+
+def create_dir():
+    directory = os.path.dirname(__file__)
+    errorfile = os.path.join(directory, "/error")
+    infofile = os.path.join(directory, "/info")
+    if not os.path.exists(errorfile):
+        os.makedirs(errorfile)
+    if not os.path.exists(infofile):
+        os.makedirs(infofile)
+        
 
 def handle_message(message):
     print(message.content)
