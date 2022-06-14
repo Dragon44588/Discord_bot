@@ -4,6 +4,9 @@ from datetime import datetime
 from discord.ext import commands
 import json
 
+def handle_message(message):
+    print(message.content)
+
 def info_log():
     file = '/home/dragon44588/Desktop/Discord_bot-main/{}-info.log'.format(datetime.date(datetime.now()))
     logger = logging.getLogger('discord')

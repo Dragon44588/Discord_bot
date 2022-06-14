@@ -1,5 +1,6 @@
 import discord
-from discord.ext import commands
+import datetime
+from discord.ext import commands, tasks
 import os
 from music_cog import music_cog
 from help_cog import help_cog
@@ -15,9 +16,12 @@ async def on_ready():
     
 @bot.event
 async def on_message(message):
-    print(message.content)
+    handle_message(message)
     await bot.process_commands(message)
-    
+
+@tasks.loop(seconds=10.0)
+async def test():
+    print(datetime.time(datetime.now))
     
 if __name__ == "__main__":
     #calls the logging functions from the general cog for information
