@@ -13,6 +13,11 @@ bot = commands.Bot(command_prefix="!")
 async def on_ready():
     print("Bot online")
     
+@bot.event
+async def on_message(message):
+    print(message.content)
+    await bot.process_commands(message)
+    
     
 if __name__ == "__main__":
     #calls the logging functions from the general cog for information
