@@ -8,7 +8,7 @@ import os
 
 async def handle_message(message):
     if not message.author.bot:
-        if message.content.lower() == "what time is it?":
+        if "what" in message.content.lower() and "time" in message.content.lower() :
             await message.channel.send("its morbin time")
         else:
             print("author: {}, message: {}".format(message.author, message.content))
