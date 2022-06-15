@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 from youtube_dl import YoutubeDL
 
@@ -19,6 +19,12 @@ class music_cog(commands.Cog):
                                'options': '-vn'}
 
         self.vc = None
+        self.autodisconnect.start()
+
+    @tasks.loop(minutes=1)
+    async def autodisconnect(self):            
+        if not self.vc == None and self.is_playing == False:
+            await self.vc.disconnect()
 
     # searching the item on youtube
     def search_yt(self, item):
@@ -43,7 +49,7 @@ class music_cog(commands.Cog):
             self.vc.play(discord.FFmpegPCMAudio(m_url, **self.FFMPEG_OPTIONS), after=lambda e: self.play_next())
         else:
             self.is_playing = False
-
+        
     # infinite loop checking
     async def play_music(self, ctx):
         if len(self.music_queue) > 0:
@@ -133,7 +139,7 @@ class music_cog(commands.Cog):
         await ctx.send("Music queue cleared")
 
     @commands.command(name="leave", aliases=["disconnect", "l", "d"], help="Kick the bot from VC")
-    async def dc(self, ctx):
+    async def disconnect(self, ctx):
         self.is_playing = False
         self.is_paused = False
         await self.vc.disconnect()

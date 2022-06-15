@@ -6,8 +6,12 @@ import json
 import os
   
 
-def handle_message(message):
-    print(message.content)
+async def handle_message(message):
+    if not message.author.bot:
+        if message.content.lower() == "what time is it?":
+            await message.channel.send("its morbin time")
+        else:
+            print("author: {}, message: {}".format(message.author, message.content))
 
 def info_log():
     infofile = os.path.join(os.path.dirname(__file__), "info/{}-info.log".format(datetime.date(datetime.now())))

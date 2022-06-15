@@ -16,12 +16,9 @@ async def on_ready():
     
 @bot.event
 async def on_message(message):
-    handle_message(message)
+    await handle_message(message)
     await bot.process_commands(message)
 
-@tasks.loop(seconds=10.0)
-async def test():
-    print(datetime.time(datetime.now))
     
 if __name__ == "__main__":
     #calls the logging functions from the general cog for information
