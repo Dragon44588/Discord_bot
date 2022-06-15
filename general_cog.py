@@ -10,7 +10,7 @@ def handle_message(message):
     print(message.content)
 
 def info_log():
-    infofile = os.path.join(os.path.dirname(__file__), "/info/{}-info.log".format(datetime.date(datetime.now())))
+    infofile = os.path.join(os.path.dirname(__file__), "info/{}-info.log".format(datetime.date(datetime.now())))
     logger = logging.getLogger('discord')
     logger.setLevel(logging.INFO)
     handler = logging.FileHandler(filename=infofile, encoding='utf-8', mode='w')
@@ -19,7 +19,7 @@ def info_log():
 
 
 def error_log():
-    errorfile = os.path.join(os.path.dirname(__file__), "/error/{}-error.log".format(datetime.date(datetime.now())))
+    errorfile = os.path.join(os.path.dirname(__file__), "error/{}-error.log".format(datetime.date(datetime.now())))
     logger = logging.getLogger('discord')
     logger.setLevel(logging.WARNING)
     handler = logging.FileHandler(filename= errorfile, encoding='utf-8', mode='w')
