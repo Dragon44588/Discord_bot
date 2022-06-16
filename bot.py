@@ -1,13 +1,11 @@
 import discord
-import datetime
 from discord.ext import commands, tasks
 import os
 from music_cog import music_cog
 from help_cog import help_cog
 from general_cog import *
 from dotenv import load_dotenv
-import json
-import logging
+
 bot = commands.Bot(command_prefix="!")
 
 @bot.event
