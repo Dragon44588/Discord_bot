@@ -1,3 +1,4 @@
+from genericpath import exists
 import discord
 import logging
 from datetime import datetime
@@ -12,6 +13,31 @@ async def handle_message(message):
             await message.channel.send("its morbin time")
         else:
             print("author: {}, message: {}".format(message.author, message.content))
+
+def check_data():
+    path = os.path.join(os.path.dirname(__file__), "data")
+    if not os.path.exists(path):
+        os.makedirs(path)
+    file = os.path.join(path, "test.json")
+    dump = json.dumps({
+        "name" : "adrian",
+        "cringe" : False
+    })
+    with open(file, "w", encoding="utf-8") as f:
+        f.write(dump)
+        
+async def save_user(message):
+    if not message.author.bot:
+        file = os.path.join(os.path.dirname(__file__), "data\\users.json")
+        dump = json.dumps({
+            "Name" : message.author.name,
+            "Nickname" : message.author.display_name,
+            "Discriminator" : message.author.discriminator
+        }, sort_keys=True, indent=4)
+        with open(file, "a", encoding="utf-8") as f:
+            f.write(dump)
+     
+        
 
 def info_log():
     infofile = os.path.join(os.path.dirname(__file__), "info/{}-info.log".format(datetime.date(datetime.now())))

@@ -16,14 +16,14 @@ async def on_ready():
     
 @bot.event
 async def on_message(message):
+    await save_user(message)
     await handle_message(message)
     await bot.process_commands(message)
 
     
 if __name__ == "__main__":
     #calls the logging functions from the general cog for information
-    create_dir()
-
+    check_data()
     #loads the token and sets the bots prefix
     load_dotenv()
     TOKEN = os.getenv('DISCORD_TOKEN')
