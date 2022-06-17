@@ -15,16 +15,9 @@ async def handle_message(message):
             print("author: {}, message: {}".format(message.author, message.content))
 
 def check_data():
-    path = os.path.join(os.path.dirname(__file__), "data")
-    if not os.path.exists(path):
-        os.makedirs(path)
-    file = os.path.join(path, "test.json")
-    dump = json.dumps({
-        "name" : "adrian",
-        "cringe" : False
-    })
-    with open(file, "w", encoding="utf-8") as f:
-        f.write(dump)
+    file = os.path.join(os.path.dirname(__file__), "data\\test.json")
+    if os.path.exists(file):
+        print("file exists")
         
 async def save_user(message):
     if not message.author.bot:
@@ -33,11 +26,16 @@ async def save_user(message):
             "Name" : message.author.name,
             "Nickname" : message.author.display_name,
             "Discriminator" : message.author.discriminator
-        }, sort_keys=True, indent=4)
-        with open(file, "a", encoding="utf-8") as f:
-            f.write(dump)
-     
-        
+        }, sort_keys=True, indent=4, separators=(". ", " = "))
+        with open(file, "w+", encoding="utf-8") as f:
+            if os.path.getsize(file) == 0:
+                print("file empty")
+                print("writing a dummy dump")
+                f.write(dump)
+            else:
+                print("file not empty")
+                print(json.loads(f.read()))
+                
 
 def info_log():
     infofile = os.path.join(os.path.dirname(__file__), "info/{}-info.log".format(datetime.date(datetime.now())))
