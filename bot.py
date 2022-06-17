@@ -27,4 +27,5 @@ if __name__ == "__main__":
     bot.remove_command("help")
     bot.add_cog(help_cog(bot))
     bot.add_cog(music_cog(bot))
+    bot.add_cog(general_cog(bot))
     bot.run(TOKEN)

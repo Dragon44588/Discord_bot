@@ -6,7 +6,22 @@ from discord.ext import commands
 import json
 import os
   
-
+class general_cog(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        
+    @commands.command(name="test", help = "leaderboard lmao")
+    async def leaderboard(ctx):
+        filename = os.path.join(os.path.dirname(__file__), "data\\users.json")
+        leaderboard = ""
+        data = read_json(filename)
+        x = 1
+        for i in data:
+            leaderboard += "{0}. {1} : {2} \n".format(x, i["Username"], x ** x)       
+            x += 1
+        
+        await ctx.send(leaderboard)
+        
 async def handle_message(message):
     if not message.author.bot:
         if "what" in message.content.lower() and "time" in message.content.lower() :
@@ -16,25 +31,31 @@ async def handle_message(message):
         
 async def save_user(message):
     if not message.author.bot:
+        dump = {
+            "Username" : message.author.name,
+            "Nickname" : message.author.display_name,
+            "Discriminator" : message.author.discriminator
+        }
         exists = False
+        index = 0
+        x = 0
         filename = os.path.join(os.path.dirname(__file__), "data\\users.json")
         listobj = []
         if os.path.exists(filename) and not os.path.getsize(filename) == 0:
             listobj = read_json(filename)
         
         for i in listobj:
-            if message.author.name == i["Username"]:
+            if message.author.name == i["Username"] or message.author.discriminator == i["Discriminator"]:
                 exists = True
-        
+                index = x
+            x += 1
+            
         if exists:
-            print("user exists")
+            print("user exists, updating")
+            listobj[index] = dump
+            save_json(listobj, filename)
         else:
             print("user doesnt exist, adding to file")
-            dump = {
-                "Username" : message.author.name,
-                "Nickname" : message.author.display_name,
-                "Discriminator" : message.author.discriminator
-            }
             listobj.append(dump)
             save_json(listobj, filename)
             
