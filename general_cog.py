@@ -6,38 +6,68 @@ from discord.ext import commands
 import json
 import os
   
-
+class general_cog(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        
+    @commands.command(name="test", help = "leaderboard lmao")
+    async def leaderboard(ctx):
+        filename = os.path.join(os.path.dirname(__file__), "data\\users.json")
+        leaderboard = ""
+        data = read_json(filename)
+        x = 1
+        for i in data:
+            leaderboard += "{0}. {1} : {2} \n".format(x, i["Username"], x ** x)       
+            x += 1
+        
+        await ctx.send(leaderboard)
+        
 async def handle_message(message):
     if not message.author.bot:
         if "what" in message.content.lower() and "time" in message.content.lower() :
             await message.channel.send("its morbin time")
         else:
             print("author: {}, message: {}".format(message.author, message.content))
-
-def check_data():
-    path = os.path.join(os.path.dirname(__file__), "data")
-    if not os.path.exists(path):
-        os.makedirs(path)
-    file = os.path.join(path, "test.json")
-    dump = json.dumps({
-        "name" : "adrian",
-        "cringe" : False
-    })
-    with open(file, "w", encoding="utf-8") as f:
-        f.write(dump)
         
 async def save_user(message):
     if not message.author.bot:
-        file = os.path.join(os.path.dirname(__file__), "data\\users.json")
-        dump = json.dumps({
-            "Name" : message.author.name,
+        dump = {
+            "Username" : message.author.name,
             "Nickname" : message.author.display_name,
             "Discriminator" : message.author.discriminator
-        }, sort_keys=True, indent=4)
-        with open(file, "a", encoding="utf-8") as f:
-            f.write(dump)
-     
+        }
+        exists = False
+        index = 0
+        x = 0
+        filename = os.path.join(os.path.dirname(__file__), "data\\users.json")
+        listobj = []
+        if os.path.exists(filename) and not os.path.getsize(filename) == 0:
+            listobj = read_json(filename)
         
+        for i in listobj:
+            if message.author.name == i["Username"] or message.author.discriminator == i["Discriminator"]:
+                exists = True
+                index = x
+            x += 1
+            
+        if exists:
+            print("user exists, updating")
+            listobj[index] = dump
+            save_json(listobj, filename)
+        else:
+            print("user doesnt exist, adding to file")
+            listobj.append(dump)
+            save_json(listobj, filename)
+            
+def save_json(contents, filename):
+    with open(filename, "w") as f:
+        json.dump(contents, f, indent=4)
+
+def read_json(filename):
+    with open(filename, "r") as f:
+        listobj = json.load(f)
+        return listobj
+                
 
 def info_log():
     infofile = os.path.join(os.path.dirname(__file__), "info/{}-info.log".format(datetime.date(datetime.now())))

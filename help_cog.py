@@ -8,14 +8,15 @@ class help_cog(commands.Cog):
         self.help_message = """
 ```
 commands:
-/help - displays this
-/p <words> - plays song
-/q - displays queue
-/skip - skips song (currently broken probs wont be fixed lmao)
-/clear - clears queue
-/leave - makes bot leave
-/pause - pauses music
-/resume - resumes music
+!help - displays this
+!p <words> - plays song
+!q - displays queue
+!skip - skips song (currently broken probs wont be fixed lmao)
+!clear - clears queue
+!leave - makes bot leave
+!pause - pauses music
+!resume - resumes music
+!leaderboard - displays leaderboard
 ```
         """
 

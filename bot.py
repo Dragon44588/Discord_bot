@@ -20,8 +20,6 @@ async def on_message(message):
 
     
 if __name__ == "__main__":
-    #calls the logging functions from the general cog for information
-    check_data()
     #loads the token and sets the bots prefix
     load_dotenv()
     TOKEN = os.getenv('DISCORD_TOKEN')
@@ -29,4 +27,5 @@ if __name__ == "__main__":
     bot.remove_command("help")
     bot.add_cog(help_cog(bot))
     bot.add_cog(music_cog(bot))
+    bot.add_cog(general_cog(bot))
     bot.run(TOKEN)
