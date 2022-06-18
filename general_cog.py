@@ -11,13 +11,13 @@ class general_cog(commands.Cog):
         self.bot = bot
         
     @commands.command(name="test", help = "leaderboard lmao")
-    async def leaderboard(ctx):
+    async def leaderboard(self, ctx):
         filename = os.path.join(os.path.dirname(__file__), "data\\users.json")
         leaderboard = ""
         data = read_json(filename)
         x = 1
         for i in data:
-            leaderboard += "{0}. {1} : {2} \n".format(x, i["Username"], x ** x)       
+            leaderboard += "{0}. {1} : {2} \n".format(x, i["Username"], x + 10)       
             x += 1
         
         await ctx.send(leaderboard)
