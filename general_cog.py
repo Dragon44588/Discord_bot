@@ -1,10 +1,11 @@
-from genericpath import exists
 import discord
-import logging
-from datetime import datetime
-from discord.ext import commands
-import json
+from discord.ext import commands, tasks
 import os
+from datetime import datetime, timedelta
+from music_cog import music_cog
+from help_cog import help_cog
+from general_cog import *
+from dotenv import load_dotenv
   
 class general_cog(commands.Cog):
     def __init__(self, bot):
@@ -21,6 +22,20 @@ class general_cog(commands.Cog):
             x += 1
         
         await ctx.send(leaderboard)
+
+async def handle_delete(message):
+    if not message.author.bot:
+        async for entry in message.guild.audit_logs(limit=1,action=discord.AuditLogAction.message_delete):
+            audit_time = entry.created_at + timedelta(hours=10)
+            current_time = datetime.now()
+            min_time = (audit_time - timedelta(seconds=40))
+            max_time = (audit_time + timedelta(seconds=40))
+            
+            if current_time >= min_time and current_time <= max_time:
+                await message.channel.send("{} just tried to delete {}s message which is '{}'\n\nand they're gay".format(entry.user.mention, message.author.display_name, message.content))
+            else:
+                await message.channel.send("this fucker deleted their own message which is '{}'\n\nand theyre gay".format(message.content))
+
         
 async def handle_message(message):
     if not message.author.bot:

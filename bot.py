@@ -1,4 +1,3 @@
-from time import timezone
 import discord
 from discord.ext import commands, tasks
 import os
@@ -17,18 +16,7 @@ async def on_ready():
 
 @bot.event    
 async def on_message_delete(message):
-    async for entry in message.guild.audit_logs(limit=1,action=discord.AuditLogAction.message_delete):
-        audit_time = entry.created_at + timedelta(hours=10)
-        current_time = datetime.now()
-        min_time = (audit_time - timedelta(seconds=40))
-        max_time = (audit_time + timedelta(seconds=40))
-        
-        if current_time >= min_time and current_time <= max_time:
-            await message.channel.send("{} just tried to delete {}s message which is '{}'\n\n and they're gay".format(entry.user.mention, message.author.display_name, message.content))
-        else:
-            await message.channel.send("this fucker deleted their own message which is '{}' and theyre gay".format(message.content))
-
-        #await message.channel.send("this fucker just tried to delete '{}' \nhttps://tenor.com/view/i-saw-what-you-just-deleted-gif-22613011".format(message.content))
+    await handle_delete(message)
         
     
     
