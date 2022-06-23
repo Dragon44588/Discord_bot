@@ -6,7 +6,10 @@ from music_cog import music_cog
 from help_cog import help_cog
 from general_cog import *
 from dotenv import load_dotenv
-  
+import json
+import logging
+
+
 class general_cog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
