@@ -4,6 +4,7 @@ import uTube
 import os
 import boto3
 from openai import AsyncOpenAI
+import requests
 
 
 class AudioPlayer(commands.Cog):
@@ -120,5 +121,7 @@ class AudioPlayer(commands.Cog):
             print(i)
 
         image_url = response.data[0].url
-        await ctx.message.reply(image_url)
-                    
+        img_data = requests.get(image_url)
+        with open('temp.png', "wb") as f:
+            f.write(img_data.content)
+        await ctx.channel.send(file=discord.File('temp.png'))
