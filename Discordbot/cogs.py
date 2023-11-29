@@ -105,23 +105,24 @@ class AudioPlayer(commands.Cog):
 
     @commands.command(name="gpti")
     async def request_gpti(self, ctx, args):
-        message = ctx.message.content[6:]
-        client = AsyncOpenAI(api_key="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")
+        try:
+            message = ctx.message.content[6:]
+            client = AsyncOpenAI(api_key="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")
+            
+            response = await client.images.generate(
+            model="dall-e-3",
+            prompt=message,
+            size="1024x1024",
+            quality="standard",
+            n=1,
+            )
 
-
-        response = await client.images.generate(
-        model="dall-e-3",
-        prompt=message,
-        size="1024x1024",
-        quality="standard",
-        n=1,
-        )
-
-        for i in response:
-            print(i)
-
-        image_url = response.data[0].url
-        img_data = requests.get(image_url)
-        with open('temp.png', "wb") as f:
-            f.write(img_data.content)
-        await ctx.channel.send(file=discord.File('temp.png'))
+            image_url = response.data[0].url
+            img_data = requests.get(image_url)
+            with open('temp.png', "wb") as f:
+                f.write(img_data.content)
+            await ctx.channel.send(message, file=discord.File('temp.png'))
+        except AsyncOpenAI.BadRequestError:
+            await ctx.message.reply("cant generate, that had a bad word lmao")
+        except:
+            await ctx.message.reply("uhhh, something else that adrian didnt account for went wrong")
