@@ -122,7 +122,5 @@ class AudioPlayer(commands.Cog):
             with open('temp.png', "wb") as f:
                 f.write(img_data.content)
             await ctx.channel.send(message, file=discord.File('temp.png'))
-        except AsyncOpenAI.BadRequestError:
-            await ctx.message.reply("cant generate, that had a bad word lmao")
-        except:
-            await ctx.message.reply("uhhh, something else that adrian didnt account for went wrong")
+        except :
+            await ctx.message.reply("uhhhhhhhh something went wrong")
