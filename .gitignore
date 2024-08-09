@@ -130,3 +130,4 @@ dmypy.json
 data/users.json
 songs.txt
 temp.png
+*.m4a
