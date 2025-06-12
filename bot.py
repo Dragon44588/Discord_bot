@@ -8,7 +8,7 @@ from general_cog import *
 from models_cog import models_cog
 from dotenv import load_dotenv
 
-bot = commands.Bot(command_prefix="!")
+bot = commands.Bot(command_prefix="!", intents=discord.Intents.default())
 
 @bot.event
 async def on_ready():
@@ -31,11 +31,11 @@ async def on_message(message):
 if __name__ == "__main__":
     #loads the token and sets the bots prefix
     load_dotenv()
-    TOKEN = os.getenv('DISCORD_TOKEN')
+    TOKEN = os.getenv('TOKEN')
     #adds all the cogs to the bot for commands
     bot.remove_command("help")
     bot.add_cog(help_cog(bot))
-    bot.add_cog(music_cog(bot))
+    #bot.add_cog(music_cog(bot))
     bot.add_cog(general_cog(bot))
     bot.add_cog(models_cog(bot))
     bot.run(TOKEN)
