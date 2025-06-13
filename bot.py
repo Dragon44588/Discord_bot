@@ -3,9 +3,7 @@ from discord.ext import commands, tasks
 import os
 from datetime import datetime, timedelta
 from music_cog import music_cog
-from help_cog import help_cog
 from general_cog import *
-from models_cog import models_cog
 from dotenv import load_dotenv
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.default())
@@ -33,9 +31,6 @@ if __name__ == "__main__":
     load_dotenv()
     TOKEN = os.getenv('TOKEN')
     #adds all the cogs to the bot for commands
-    bot.remove_command("help")
-    bot.add_cog(help_cog(bot))
     #bot.add_cog(music_cog(bot))
     bot.add_cog(general_cog(bot))
-    bot.add_cog(models_cog(bot))
     bot.run(TOKEN)

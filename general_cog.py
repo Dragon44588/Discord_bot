@@ -3,7 +3,6 @@ from discord.ext import commands, tasks
 import os
 from datetime import datetime, timedelta
 from music_cog import music_cog
-from help_cog import help_cog
 from general_cog import *
 from dotenv import load_dotenv
 import json
